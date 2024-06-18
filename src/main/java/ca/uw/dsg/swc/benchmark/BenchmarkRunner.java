@@ -64,19 +64,20 @@ public class BenchmarkRunner {
 
     private static void throughputRunner() {
         List<String> results = new ArrayList<>();
-        int repeat = 6;
-        String[] methods = {
+        int repeat = 6; // 重复6次
+        String[] methods = { // 5种方法
                 "D-Tree",
                 "RWC",
                 "BIC",
                 "ET-Tree",
                 "HDT"
         };
+        // 传入的参数分别为：D-Tree, per-eva, sg-wiki-topcats, 10小时30分钟, 6次, results
         setupThrExp(
                 methods,
                 "per-eva",
                 "sg-wiki-topcats",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30))),
+                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30))), // 将小时数乘以3600来计算总秒数，将分钟数乘以60来计算总秒数
                 repeat,
                 results
         );
@@ -763,11 +764,14 @@ public class BenchmarkRunner {
                     initializeOutput(workload.size()),
                     memoryResults
             );
+            // 结果写入到文件
             writePerWindowResult(
                     memoryResults,
                     BENCHMARK_RESULTS + "memory-" + expType + "-" + rangeSlide + "-" + graph + "-" + method + "-" + "workload" + workload.size() + ".txt"
             );
+            // 打印
             System.out.println("memory-" + expType + "-" + rangeSlide + "-" + graph + "-" + method + "-" + "workload" + workload.size());
+            // 打印结果
             for (Long l : memoryResults)
                 System.out.println(l);
             System.gc();
@@ -788,7 +792,7 @@ public class BenchmarkRunner {
                 rangeAndSlides,
                 repeat,
                 results,
-                List.of(getWorkLoad(graph, 100))
+                List.of(getWorkLoad(graph, 100)) // List.of(...)方法被用来创建一个只包含一个元素的不可变列表
         );
     }
 
@@ -804,15 +808,15 @@ public class BenchmarkRunner {
         // get graph
         List<StreamingEdge> streamingEdges = GraphUtils.readStreamingGraph(BENCHMARK_DATASETS + graph + ".txt", ",");
 
-        for (List<IntIntPair> workload : workloads) {
-            System.out.println("Workload size: " + workload.size());
+        for (List<IntIntPair> workload : workloads) { // 遍历 workloads
+            System.out.println("Workload size: " + workload.size()); // 打印工作负载（返回负载数量）
 
             if (rangeAndSlides == null)
                 return;
 
-            System.out.println("Range and slide" + rangeAndSlides);
+            System.out.println("Range and slide: " + rangeAndSlides); // 打印 range 和 slides
 
-            for (String method : methods)
+            for (String method : methods) // 遍历 methods（D-Tree, RWC, BIC, ET-Tree, HDT）
                 runThrExp(
                         graph,
                         method,
@@ -857,7 +861,7 @@ public class BenchmarkRunner {
 
             System.out.println("Range and slide: " + rangeAndSlides);
 
-            for (String method : methods)
+            for (String method : methods) // 遍历 methods（D-Tree, RWC, BIC, ET-Tree, HDT）
                 runLatExp(
                         expType,
                         graph,
@@ -878,22 +882,31 @@ public class BenchmarkRunner {
             List<IntIntPair> workload,
             List<StreamingEdge> streamingEdges,
             List<String> results) {
+        // 打印实验类型 + 方法 + 数据集 + range和slide
+        // e.g. Start per-eva throughput experiments for BIC on sg-wiki-topcats with ranges and slides of [(PT10H,PT30M)]
         System.out.println("Start " + expType + " throughput experiments for " + method + " on " + graph + " with ranges and slides of " + rangeSlides);
         for (Pair<Duration, Duration> rangeSlide : rangeSlides) {
-            Duration range = rangeSlide.getFirst();
-            Duration slide = rangeSlide.getSecond();
-            for (int i = 0; i < repeat; i++) {
-                AbstractSlidingWindowConnectivity slidingWindowConnectivity = getSwc(method, range, slide, workload, graph, streamingEdges.get(0).timeStamp);
-                long start = System.nanoTime();
-                slidingWindowConnectivity.computeSlidingWindowConnectivity(
+            Duration range = rangeSlide.getFirst(); // 得到 range
+            Duration slide = rangeSlide.getSecond(); // 得到 slide
+            for (int i = 0; i < repeat; i++) { // 执行repeat(6)次
+                AbstractSlidingWindowConnectivity slidingWindowConnectivity = getSwc(method, range, slide, workload, graph, streamingEdges.get(0).timeStamp); // BenchmarkRunner 第940行
+                long start = System.nanoTime(); // 开始时间(1秒=10^9纳秒)
+                slidingWindowConnectivity.computeSlidingWindowConnectivity( // AbstractSlidingWindowConnectivity.java 第32行
                         streamingEdges,
                         initializeOutput(workload.size())
                 );
-                long end = System.nanoTime();
+                long end = System.nanoTime(); // 结束时间
                 String result = graph + "," + expType + "," + method + "," + range.toMillis() + "," + slide.toMillis() + "," + streamingEdges.size() + "," + (end - start) + "," + workload.size();
-                System.out.println(result);
+                System.out.println(result); // 打印最终的结果
+                // 数据集, 实验类型, 方法, range, slide, 数据集大小(非重复边的数量), 运行时间, 工作负载大小(limit)
+                // sg-wiki-topcats,per-eva,BIC,36000000,1800000,25444207,10478799110(10.4788秒),100
+                // sg-wiki-topcats,per-eva,BIC,36000000,1800000,25444207,9972964865,100
+                // sg-wiki-topcats,per-eva,BIC,36000000,1800000,25444207,9739527155,100
+                // sg-wiki-topcats,per-eva,BIC,36000000,1800000,25444207,10124519320,100
+                // sg-wiki-topcats,per-eva,BIC,36000000,1800000,25444207,9620980366,100
+                // sg-wiki-topcats,per-eva,BIC,36000000,1800000,25444207,9990710165,100
                 results.add(result);
-                System.gc();
+                System.gc(); // 用来请求垃圾收集器执行垃圾回收（不是强制执行垃圾回收）
             }
         }
     }
@@ -913,11 +926,12 @@ public class BenchmarkRunner {
         );// warm up
 
         System.out.println("Start latency " + exp + " experiments for " + method + " on " + graph + " with ranges and slides: " + rangeAndSlides);
+
         for (Pair<Duration, Duration> pair : rangeAndSlides) {
             Duration range = pair.getFirst(), slide = pair.getSecond();
             AbstractSlidingWindowConnectivity slidingWindowConnectivity = getSwc(method, range, slide, workload, graph, streamingEdges.get(0).timeStamp);
             List<Long> result = new ArrayList<>();
-            slidingWindowConnectivity.computeSlidingWindowConnectivity(
+            slidingWindowConnectivity.computeSlidingWindowConnectivity( // AbstractSlidingWindowConnectivity.java 第70行
                     streamingEdges,
                     initializeOutput(workload.size()),
                     result);
@@ -967,33 +981,34 @@ public class BenchmarkRunner {
         }
     }
 
+    // 将result列表中的每个元素写入到指定路径path的文件中，每个元素占一行
     private static void writePerWindowResult(List<Long> result, String path) {
-        FileWriter fileWriter;
+        FileWriter fileWriter; // 写入字符到文件的便捷类
         try {
-            fileWriter = new FileWriter(path);
+            fileWriter = new FileWriter(path); // 新的文件输出流会被创建(如果文件已存在则会被覆盖)
             for (Long record : result)
-                fileWriter.append(record.toString()).append("\n");
-            fileWriter.flush();
-            fileWriter.close();
+                fileWriter.append(record.toString()).append("\n"); // 每个记录被转换为字符串(通过调用toString()方法)
+            fileWriter.flush(); // 确保所有缓冲的输出数据都被写入到文件中
+            fileWriter.close(); // 关闭文件输出流，释放与之相关的资源
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     private static List<IntIntPair> getFullWorkLoad(String graph) {
-        return WorkloadUtils.readWorkload(BENCHMARK_WORKLOADS + graph + ".json");
+        return WorkloadUtils.readWorkload(BENCHMARK_WORKLOADS + graph + ".json"); // ./benchmark/workloads/sg-wiki-topcats.json
     }
 
     private static List<IntIntPair> getWorkLoad(String graph, int limit) {
-        List<IntIntPair> temp = getFullWorkLoad(graph);
+        List<IntIntPair> temp = getFullWorkLoad(graph); // 得到全部负载（返回一个IntIntPair对象的列表，并将其存储在局部变量temp中）
         List<IntIntPair> workload = new ArrayList<>();
         Random random = new Random(1700276688);
         for (int i = 0; i < limit; i++) // test a workload of 100 queries
-            workload.add(temp.get(random.nextInt(temp.size())));
-        return workload;
+            workload.add(temp.get(random.nextInt(temp.size()))); // 从temp列表中随机选择limit个IntIntPair对象添加到workload列表中
+        return workload; // 返回最终的workload列表
     }
 
-    private static List<List<IntIntPair>> getWorkLoads(String graph, int[] sizes) {
+    private static List<List<IntIntPair>> getWorkLoads(String graph, int[] sizes) { // sizes: {1, 10, 100, 1000, 10000}
         List<List<IntIntPair>> ret = new ArrayList<>();
         for (int size : sizes)
             ret.add(getWorkLoad(graph, size));

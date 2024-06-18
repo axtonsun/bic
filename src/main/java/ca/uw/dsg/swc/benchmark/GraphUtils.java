@@ -136,7 +136,7 @@ public class GraphUtils {
         try {
             scanner = new Scanner(new File(path));
             streamingEdges = new ArrayList<>();
-            System.out.println("Loading graph: " + path);
+            System.out.println("Loading graph: " + path); // 打印加载数据集 e.g. Loading graph: ./benchmark/datasets/sg-wiki-topcats.txt
             HashSet<IntIntPair> set = new HashSet<>();
             while (scanner.hasNext()) {
                 String line = scanner.nextLine();
@@ -163,9 +163,9 @@ public class GraphUtils {
             throw new RuntimeException(e);
         }
 
-        System.out.println("Num of streaming edges in the queue: " + streamingEdges.size());
-        System.out.println("Num of loops: " + loop);
-        System.out.println("Num of multi-edges: " + multiEdge);
+        System.out.println("Num of streaming edges in the queue: " + streamingEdges.size()); // 非重复边非自环边的数量
+        System.out.println("Num of loops: " + loop); // 自环边的数量
+        System.out.println("Num of multi-edges: " + multiEdge); // 重复边的数量
         return streamingEdges;
     }
 

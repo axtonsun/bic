@@ -34,7 +34,7 @@ public class WorkloadUtils {
     }
 
     static List<IntIntPair> readWorkload(String path) {
-        System.out.println("Loading workload: " + path);
+        System.out.println("Loading workload: " + path); // 打印加载工作负载 e.g. Loading workload: ./benchmark/workloads/sg-wiki-topcats.json
         List<IntIntPair> ret = null;
         Type querySetType = new TypeToken<List<IntIntImmutablePair>>() {
         }.getType();
