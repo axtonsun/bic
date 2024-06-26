@@ -71,7 +71,7 @@ public class BidirectionalIncrementalConnectivity extends AbstractSlidingWindowC
             backwardBuffer.compute();
 //            System.out.println("Backward buffer computation time: " + (System.nanoTime() - start));
 
-            bf = new BackwardForwardBufferPair(backwardBuffer, new ForwardBuffer(workload));
+            bf = new BackwardForwardBufferPair(backwardBuffer, new ForwardBuffer(workload)); // 第125行: class BackwardForwardBufferPair
 
             // get a new chunk
             startOfEachChunk += durationOfChunk;

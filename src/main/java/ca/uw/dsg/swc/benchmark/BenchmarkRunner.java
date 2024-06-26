@@ -45,21 +45,21 @@ public class BenchmarkRunner {
         latencyRunner();
 
         // fixed slide interval, varied window sizes
-        scalabilityFixedSlideThrExpRunner();
-        scalabilityFixedSlideLatencyExpRunner();
+        // scalabilityFixedSlideThrExpRunner();
+        // scalabilityFixedSlideLatencyExpRunner();
 
         // fixed window size, varied slide intervals
-        scalabilityFixedRangeThrExpRunner();
-        scalabilityFixedRangeLatencyExpRunner();
+        // scalabilityFixedRangeThrExpRunner();
+        // scalabilityFixedRangeLatencyExpRunner();
 
         // varied workload sizes
-        scalabilityWorkloadThrExpRunner();
-        scalabilityWorkloadLatencyExpRunner();
+        // scalabilityWorkloadThrExpRunner();
+        // scalabilityWorkloadLatencyExpRunner();
 
         // memory consumption
         memoryConsumptionRunner();
-        scalabilityFixedSlideMemRunner();
-        scalabilityFixedRangeMemRunner();
+        // scalabilityFixedSlideMemRunner();
+        // scalabilityFixedRangeMemRunner();
     }
 
     private static void throughputRunner() {
@@ -76,7 +76,7 @@ public class BenchmarkRunner {
         setupThrExp(
                 methods,
                 "per-eva",
-                "sg-wiki-topcats",
+                "sg-wiki-topcats", // WT
                 List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30))), // 将小时数乘以3600来计算总秒数，将分钟数乘以60来计算总秒数
                 repeat,
                 results
@@ -84,75 +84,75 @@ public class BenchmarkRunner {
         setupThrExp(
                 methods,
                 "per-eva",
-                "sg-soc-pokec-relationships",
+                "sg-soc-pokec-relationships", // PR: 685.75 MB
                 List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30))),
                 repeat,
                 results
         );
-        setupThrExp(
-                methods,
-                "per-eva",
-                "sg-com-lj.ungraph",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30))),
-                repeat,
-                results
-        );
-        setupThrExp(
-                methods,
-                "per-eva",
-                "sg-stackoverflow",
-                List.of(Pair.of(Duration.ofDays(180), Duration.ofDays(9))),
-                repeat,
-                results
-        );
-        setupThrExp(
-                methods,
-                "per-eva",
-                "sg-orkut",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30))),
-                repeat,
-                results
-        );
-        setupThrExp(
-                methods,
-                "per-eva",
-                "sg-ldbc-sf1k-knows",
-                List.of(Pair.of(Duration.ofDays(20), Duration.ofDays(1))),
-                repeat,
-                results
-        );
-        setupThrExp(
-                methods,
-                "per-eva",
-                "sg-graph500-25",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30))),
-                repeat,
-                results
-        );
-        setupThrExp(
-                methods,
-                "per-eva",
-                "sg-com-friendster.ungraph",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30))),
-                repeat,
-                results
-        );
-        setupThrExp(
-                methods,
-                "per-eva",
-                "sg-semantic-scholar",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30))),
-                repeat,
-                results
-        );
-        setupThrExp(
-                methods,
-                "per-eva",
-                "sg-youtube-u-growth",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30))),
-                repeat,
-                results
-        );
+        // setupThrExp(
+        //         methods,
+        //         "per-eva",
+        //         "sg-com-lj.ungraph", // LJ: 798.47 MB
+        //         List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30))),
+        //         repeat,
+        //         results
+        // );
+        // setupThrExp(
+        //         methods,
+        //         "per-eva",
+        //         "sg-stackoverflow", // SO: 1.70 GB
+        //         List.of(Pair.of(Duration.ofDays(180), Duration.ofDays(9))),
+        //         repeat,
+        //         results
+        // );
+        // setupThrExp(
+        //         methods,
+        //         "per-eva",
+        //         "sg-orkut", // OR: 2.74 GB
+        //         List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30))),
+        //         repeat,
+        //         results
+        // );
+        // setupThrExp(
+        //         methods,
+        //         "per-eva",
+        //         "sg-ldbc-sf1k-knows", // LK(synthetic): 5.04 GB
+        //         List.of(Pair.of(Duration.ofDays(20), Duration.ofDays(1))),
+        //         repeat,
+        //         results
+        // );
+        // setupThrExp(
+        //         methods,
+        //         "per-eva",
+        //         "sg-graph500-25", // GF(synthetic): 13.71 GB
+        //         List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30))),
+        //         repeat,
+        //         results
+        // );
+        // setupThrExp(
+        //         methods,
+        //         "per-eva",
+        //         "sg-com-friendster.ungraph", // FS: 49.29 GB
+        //         List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30))),
+        //         repeat,
+        //         results
+        // );
+        // setupThrExp(
+        //         methods,
+        //         "per-eva",
+        //         "sg-semantic-scholar", // SC: 
+        //         List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30))),
+        //         repeat,
+        //         results
+        // );
+        // setupThrExp(
+        //         methods,
+        //         "per-eva",
+        //         "sg-youtube-u-growth", // YG:
+        //         List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30))),
+        //         repeat,
+        //         results
+        // );
         writeResult(results, BENCHMARK_RESULTS + "throughput-per-eva-" + LocalDateTime.now() + ".txt");
     }
 
@@ -177,54 +177,54 @@ public class BenchmarkRunner {
                 "sg-soc-pokec-relationships",
                 List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
         );
-        setupLatencyExp(
-                methods,
-                expType,
-                "sg-com-lj.ungraph",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
-        );
-        setupLatencyExp(
-                methods,
-                expType,
-                "sg-stackoverflow",
-                List.of(Pair.of(Duration.ofDays(180), Duration.ofDays(9)))
-        );
-        setupLatencyExp(
-                methods,
-                expType,
-                "sg-orkut",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
-        );
-        setupLatencyExp(
-                methods,
-                expType,
-                "sg-ldbc-sf1k-knows",
-                List.of(Pair.of(Duration.ofDays(20), Duration.ofDays(1)))
-        );
-        setupLatencyExp(
-                methods,
-                expType,
-                "sg-graph500-25",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
-        );
-        setupLatencyExp(
-                methods,
-                expType,
-                "sg-com-friendster.ungraph",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
-        );
-        setupLatencyExp(
-                methods,
-                expType,
-                "sg-semantic-scholar",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
-        );
-        setupLatencyExp(
-                methods,
-                expType,
-                "sg-youtube-u-growth",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
-        );
+        // setupLatencyExp(
+        //         methods,
+        //         expType,
+        //         "sg-com-lj.ungraph",
+        //         List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
+        // );
+        // setupLatencyExp(
+        //         methods,
+        //         expType,
+        //         "sg-stackoverflow",
+        //         List.of(Pair.of(Duration.ofDays(180), Duration.ofDays(9)))
+        // );
+        // setupLatencyExp(
+        //         methods,
+        //         expType,
+        //         "sg-orkut",
+        //         List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
+        // );
+        // setupLatencyExp(
+        //         methods,
+        //         expType,
+        //         "sg-ldbc-sf1k-knows",
+        //         List.of(Pair.of(Duration.ofDays(20), Duration.ofDays(1)))
+        // );
+        // setupLatencyExp(
+        //         methods,
+        //         expType,
+        //         "sg-graph500-25",
+        //         List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
+        // );
+        // setupLatencyExp(
+        //         methods,
+        //         expType,
+        //         "sg-com-friendster.ungraph",
+        //         List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
+        // );
+        // setupLatencyExp(
+        //         methods,
+        //         expType,
+        //         "sg-semantic-scholar",
+        //         List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
+        // );
+        // setupLatencyExp(
+        //         methods,
+        //         expType,
+        //         "sg-youtube-u-growth",
+        //         List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
+        // );
     }
 
     private static void scalabilityFixedSlideThrExpRunner() {
@@ -581,61 +581,61 @@ public class BenchmarkRunner {
                 "sg-wiki-topcats",
                 List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
         );
-        setupMemExp(
-                methods,
-                "per-eva",
-                "sg-youtube-u-growth",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
-        );
+        // setupMemExp(
+        //         methods,
+        //         "per-eva",
+        //         "sg-youtube-u-growth",
+        //         List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
+        // );
         setupMemExp(
                 methods,
                 "per-eva",
                 "sg-soc-pokec-relationships",
                 List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
         );
-        setupMemExp(
-                methods,
-                "per-eva",
-                "sg-com-lj.ungraph",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
-        );
-        setupMemExp(
-                methods,
-                "per-eva",
-                "sg-stackoverflow",
-                List.of(Pair.of(Duration.ofDays(180), Duration.ofDays(9)))
-        );
-        setupMemExp(
-                methods,
-                "per-eva",
-                "sg-orkut",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
-        );
+        // setupMemExp(
+        //         methods,
+        //         "per-eva",
+        //         "sg-com-lj.ungraph",
+        //         List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
+        // );
+        // setupMemExp(
+        //         methods,
+        //         "per-eva",
+        //         "sg-stackoverflow",
+        //         List.of(Pair.of(Duration.ofDays(180), Duration.ofDays(9)))
+        // );
+        // setupMemExp(
+        //         methods,
+        //         "per-eva",
+        //         "sg-orkut",
+        //         List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
+        // );
 
-        setupMemExp(
-                methods,
-                "per-eva",
-                "sg-ldbc-sf1k-knows",
-                List.of(Pair.of(Duration.ofDays(20), Duration.ofDays(1)))
-        );
-        setupMemExp(
-                methods,
-                "per-eva",
-                "sg-graph500-25",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
-        );
-        setupMemExp(
-                methods,
-                "per-eva",
-                "sg-com-friendster.ungraph",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
-        );
-        setupMemExp(
-                methods,
-                "per-eva",
-                "sg-semantic-scholar",
-                List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
-        );
+        // setupMemExp(
+        //         methods,
+        //         "per-eva",
+        //         "sg-ldbc-sf1k-knows",
+        //         List.of(Pair.of(Duration.ofDays(20), Duration.ofDays(1)))
+        // );
+        // setupMemExp(
+        //         methods,
+        //         "per-eva",
+        //         "sg-graph500-25",
+        //         List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
+        // );
+        // setupMemExp(
+        //         methods,
+        //         "per-eva",
+        //         "sg-com-friendster.ungraph",
+        //         List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
+        // );
+        // setupMemExp(
+        //         methods,
+        //         "per-eva",
+        //         "sg-semantic-scholar",
+        //         List.of(Pair.of(Duration.ofHours(10), Duration.ofMinutes(30)))
+        // );
     }
 
     private static void scalabilityFixedSlideMemRunner() {
@@ -806,8 +806,10 @@ public class BenchmarkRunner {
                                      List<List<IntIntPair>> workloads) {
 
         // get graph
+        // StreamingEdge类型(source, target, timestamp)
         List<StreamingEdge> streamingEdges = GraphUtils.readStreamingGraph(BENCHMARK_DATASETS + graph + ".txt", ",");
 
+        // 外循环负载(workload) 内循环算法(method)
         for (List<IntIntPair> workload : workloads) { // 遍历 workloads
             System.out.println("Workload size: " + workload.size()); // 打印工作负载（返回负载数量）
 
@@ -885,17 +887,22 @@ public class BenchmarkRunner {
         // 打印实验类型 + 方法 + 数据集 + range和slide
         // e.g. Start per-eva throughput experiments for BIC on sg-wiki-topcats with ranges and slides of [(PT10H,PT30M)]
         System.out.println("Start " + expType + " throughput experiments for " + method + " on " + graph + " with ranges and slides of " + rangeSlides);
+        
         for (Pair<Duration, Duration> rangeSlide : rangeSlides) {
             Duration range = rangeSlide.getFirst(); // 得到 range
             Duration slide = rangeSlide.getSecond(); // 得到 slide
             for (int i = 0; i < repeat; i++) { // 执行repeat(6)次
                 AbstractSlidingWindowConnectivity slidingWindowConnectivity = getSwc(method, range, slide, workload, graph, streamingEdges.get(0).timeStamp); // BenchmarkRunner 第940行
+                
                 long start = System.nanoTime(); // 开始时间(1秒=10^9纳秒)
+                
                 slidingWindowConnectivity.computeSlidingWindowConnectivity( // AbstractSlidingWindowConnectivity.java 第32行
                         streamingEdges,
                         initializeOutput(workload.size())
                 );
+                
                 long end = System.nanoTime(); // 结束时间
+                
                 String result = graph + "," + expType + "," + method + "," + range.toMillis() + "," + slide.toMillis() + "," + streamingEdges.size() + "," + (end - start) + "," + workload.size();
                 System.out.println(result); // 打印最终的结果
                 // 数据集, 实验类型, 方法, range, slide, 数据集大小(非重复边的数量), 运行时间, 工作负载大小(limit)
@@ -1015,7 +1022,7 @@ public class BenchmarkRunner {
         return ret;
     }
 
-    static List<List<Boolean>> initializeOutput(int num) {
+    static List<List<Boolean>> initializeOutput(int num) { // 根据负载数量(workload size: 100)，初始化输出大小
         List<List<Boolean>> ret = new ArrayList<>();
         for (int i = 0; i < num; i++)
             ret.add(new ArrayList<>());
